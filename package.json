@@ -1,0 +1,12 @@
+{
+  "name": "promise-effects",
+  "version": "0.0.1",
+  "description": "combinable promise effect helpers like; retry, justLatest, poll and many others",
+  "main": "index.js",
+  "repository": "https://github.com/mkg0/promise-effects",
+  "author": "mkg0",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest --watch"
+  }
+}
