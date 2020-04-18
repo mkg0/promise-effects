@@ -6,7 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Feature headline.
+- observePromise
+```js
+const observed = observePromise(fetch('http://google.com'))
+console.log(observed.isPending()) // > true
+console.log(observed.status) // > 'PENDING'
+observed.then(result=> {
+  console.log(observed.isPending()) // > false
+  console.log(observed.status) // > 'FULFILLED'
+})
+```
 
 ### Changed
 - Start using "changelog" over "change log" since it's the common usage.
