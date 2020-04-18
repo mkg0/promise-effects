@@ -24,13 +24,4 @@ describe('wait', () => {
     await jest.advanceTimersByTime(9)
     expect(waiter.status).toBe('PENDING')
   }, 700)
-
-  test('wait should resolve with the given value', async () => {
-    jest.useFakeTimers()
-    const waiter = observePromise(wait<string>(100, () => 'test'))
-    await jest.advanceTimersByTime(100)
-    return waiter.then(result => {
-      expect(result).toBe('test')
-    })
-  })
 })

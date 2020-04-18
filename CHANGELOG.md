@@ -22,7 +22,7 @@ observed.then(result=> {
 const printMessage = (count=0) =>
   Promise.resolve()
     .then(() => console.log(`You will see this message every second(${count})`))
-    .then(() => wait(1000, () => printMessage(count + 1)))
+    .then(() => wait(1000).then(() => printMessage(count + 1)))
 
 printMessage()
 // > You will see this message every second(0)
