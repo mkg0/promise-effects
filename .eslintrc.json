@@ -1,0 +1,32 @@
+{
+  "root": true,
+  "extends": [
+    "prettier",
+    "eslint:recommended",
+    "eslint-config-prettier",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint"
+  ],
+  "plugins": ["@typescript-eslint", "@typescript-eslint/eslint-plugin", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "env": {
+    "node": true,
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "trailingComma": "es5",
+        "bracketSpacing": true,
+        "semi": false,
+        "printWidth": 100
+      }
+    ],
+    "@typescript-eslint/interface-name-prefix": "off"
+  }
+}

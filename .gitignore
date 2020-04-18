@@ -1,0 +1,9 @@
+node_modules
+*.log
+/services
+/utils
+.DS_Store
+*.js
+*.d.ts
+*.map
+!jest.config.js
