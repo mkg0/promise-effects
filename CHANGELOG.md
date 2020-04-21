@@ -31,6 +31,16 @@ printMessage()
 // > You will see this message every second(3)
 // > ...
 ```
+- **retryPromise**
+A high-order function that gives the retry capability to functions that creates promise. 
+```js
+const repitativeFetch = retryPromise(fetch, {retry: 3, onReconnecting: ({attemptNumber})=> console.log(`Fetching has failed(${attemptNumber})... Retrying...`)})
+repitativeFetch('https://www.mocky.io/v2/5185415ba171ea3a00704eed')
+// > Fetching has failed(1)... Retrying...
+// > Fetching has failed(2)... Retrying...
+// > Fetching has failed(3)... Retrying...
+// > ...
+```
 
 ### Changed
 - Start using "changelog" over "change log" since it's the common usage.
