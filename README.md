@@ -1,14 +1,96 @@
 Promise Effects
 =================================
 
-Promise effects over promises for advanced use cases or test purposes.
+Promise effects like retry, timeout, observation over promises for advanced use cases or test purposes.
+
+| Effect                            | Desc                                                                              |
+|-----------------------------------|-----------------------------------------------------------------------------------|
+| [retryPromise](#retryPromise)     | creates a retry promise                                                           |
+| [wait](#wait)                     | Creates a promise to resolve for the given time long. |
+| [observePromise](#observePromise) | creates observable promises from the given promise                                                           |
+| [timeout](#timeout)               |                                                                                   |
+
 
 ## Install
 ```sh
 npm install promise-effects
 ```
 
-### timeout
+## Effects
+
+### **RetryPromise**
+
+It's a high-order function that gives the capabilify of retry to a function that creates promise.
+
+```js
+const repitativeFetch = retryPromise(fetch, {
+  retry: 3,
+  onReconnecting: ({ attemptNumber }) => console.log(`Fetching has failed(${attemptNumber})... Retrying...`),
+})
+repitativeFetch('https://www.mocky.io/v2/5185415ba171ea3a00704eed')
+  .then(resp=> resp.json())
+  .then(console.log)
+  .catch(() => console.log('Failed!'))
+// > Fetching has failed(1)... Retrying...
+// > Fetching has failed(2)... Retrying...
+// > Fetching has failed(3)... Retrying...
+// > Failed!
+```
+
+#### Options
+
+| Option Name    | Type                                                                                        |
+|----------------|---------------------------------------------------------------------------------------------|
+| onReconnecting | `fn:({attemptNumber: number,  remainingTries: number,  error: Error})`                      |
+| delay          | `number`                                                                                    |
+| delay          | `{ delay: number, factor: number, max?: number, min?: number }`                             |
+| delay          | `fn: ({attemptNumber: number,  remainingTries: number,  error: Error}) => number | Promise` |
+| shouldRetry    | `fn: ({attemptNumber: number,  remainingTries: number,  error: Error}) => booleaan`         |
+| retry          | `number`                                                                                    |
+
+
+
+### **observePromise**
+
+It wraps promises to observe the status. You can get if the promise `fulfilled`, `rejected` or `pending`. It's beneficial on test purposes. 
+
+```js
+const observed = observePromise(fetch('http://google.com'))
+console.log(observed.isPending()) // > true
+console.log(observed.isRejected()) // > false
+console.log(observed.isFulfilled()) // > false
+console.log(observed.status) // > 'PENDING'
+observed
+  .then(result=> {
+    console.log(observed.status) // > 'RESOLVED'
+    console.log(observed.isFulfilled()) // > true
+  })
+  .catch(() => {
+    console.log(observed.status) // > 'REJECTED'
+    console.log(observed.isRejected()) // > true
+  })
+```
+
+### **wait**
+
+Creates a promise to resolve for the given time long.
+
+```js
+const printMessage = (count=0) =>
+  Promise.resolve()
+    .then(() => console.log(`You will see this message every second(${count})`))
+    .then(() => wait(1000).then(() => printMessage(count + 1)))
+
+printMessage()
+// > You will see this message every second(0)
+// > You will see this message every second(1)
+// > You will see this message every second(2)
+// > You will see this message every second(3)
+// > ...
+```
+
+
+### **timeout**
 
 You don't need an exclusive timeout function for timeout. Use `wait` with [ES Promise.race](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race) instead.
 
