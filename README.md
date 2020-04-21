@@ -1,19 +1,33 @@
 Promise Effects
 =================================
 
-Promise effects like retry, timeout, observation over promises for advanced use cases or test purposes.
+[![npm](https://img.shields.io/npm/v/promise-effects)](https://www.npmjs.com/package/promise-effects)
+[![npm](https://img.shields.io/npm/l/promise-effects)]()
 
-| Effect                            | Desc                                                                              |
-|-----------------------------------|-----------------------------------------------------------------------------------|
-| [retryPromise](#retryPromise)     | creates a retry promise                                                           |
+Fully typed promise effects to play with async handlers in a pleasent way.
+
+| Effect                            | Desc                                                  |
+|-----------------------------------|-------------------------------------------------------|
+| [retryPromise](#retryPromise)     | Converts a promise creator to repetitive              |
 | [wait](#wait)                     | Creates a promise to resolve for the given time long. |
-| [observePromise](#observePromise) | creates observable promises from the given promise                                                           |
-| [timeout](#timeout)               |                                                                                   |
+| [observePromise](#observePromise) | Creates observable promises from the given promise    |
+| [timeout](#timeout)               | Timeout example                                       |
+| Polling                           | ⏱ Polling example                                     |
+| Latest                            | ⏱                                                     |
+| CancelablePromise<T>              | ⏱                                                     |
 
+## Usage
 
-## Install
+Install package
 ```sh
 npm install promise-effects
+```
+
+Import module
+```js
+import { retryPromise } from 'promise-effects'
+// or
+import retryPromise from 'promise-effects/retryPromise'
 ```
 
 ## Effects
@@ -23,11 +37,11 @@ npm install promise-effects
 It's a high-order function that gives the capabilify of retry to a function that creates promise.
 
 ```js
-const repitativeFetch = retryPromise(fetch, {
+const repetitiveFetch = retryPromise(fetch, {
   retry: 3,
   onReconnecting: ({ attemptNumber }) => console.log(`Fetching has failed(${attemptNumber})... Retrying...`),
 })
-repitativeFetch('https://www.mocky.io/v2/5185415ba171ea3a00704eed')
+repetitiveFetch('https://www.mocky.io/v2/5185415ba171ea3a00704eed')
   .then(resp=> resp.json())
   .then(console.log)
   .catch(() => console.log('Failed!'))
