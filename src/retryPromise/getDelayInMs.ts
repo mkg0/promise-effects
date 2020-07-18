@@ -1,9 +1,9 @@
 import { DELAY_ERROR } from '../errors'
-import { IAdvanceDelay, DelayFn, IAttempt, defaultDelay } from './constant'
+import { AdvanceDelay, DelayFn, Attempt, defaultDelay } from './constant'
 
 export default async function getDelayInMs(
-  delay: number | IAdvanceDelay | DelayFn,
-  attempt: IAttempt
+  delay: number | AdvanceDelay | DelayFn,
+  attempt: Attempt
 ): Promise<number> {
   if (!delay) {
     throw DELAY_ERROR
@@ -15,7 +15,7 @@ export default async function getDelayInMs(
       delay: delayMs,
       min = defaultDelay.min,
       max = defaultDelay.max,
-    } = delay as IAdvanceDelay
+    } = delay as AdvanceDelay
     return Math.max(Math.min(delayMs * Math.pow(factor, attempt.attemptNumber - 1), max), min)
   }
   const normalize = (int: number): number => Math.round(Math.max(int, 0))

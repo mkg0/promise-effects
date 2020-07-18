@@ -90,7 +90,7 @@ describe('retryPromise', () => {
   })
 
   test('should not retry if shouldRetry false', async () => {
-    const shouldRetry: ShouldRetry = jest.fn(({ attemptNumber, error, remainingTries }) => {
+    const shouldRetry: ShouldRetry = jest.fn(({ attemptNumber, reason, remainingTries }) => {
       return attemptNumber < 2
     })
     const tryResolveProgressively = retryPromise(createRejectingPromise(Infinity), {
@@ -173,21 +173,21 @@ describe('retryPromise', () => {
     await flushPromises()
     await jest.advanceTimersByTime(100)
     expect(delayFn).toHaveBeenLastCalledWith({
-      error: 'REJECT',
+      reason: 'REJECT',
       remainingTries: 10,
       attemptNumber: 1,
     })
     await flushPromises()
     await jest.advanceTimersByTime(200)
     expect(delayFn).toHaveBeenLastCalledWith({
-      error: 'REJECT',
+      reason: 'REJECT',
       remainingTries: 9,
       attemptNumber: 2,
     })
     await flushPromises()
     await jest.advanceTimersByTime(300)
     expect(delayFn).toHaveBeenLastCalledWith({
-      error: 'REJECT',
+      reason: 'REJECT',
       remainingTries: 8,
       attemptNumber: 3,
     })
