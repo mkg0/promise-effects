@@ -59,7 +59,7 @@ repetitiveFetch('https://www.mocky.io/v2/5185415ba171ea3a00704eed')
 | delay          | `number`                                                                                    |
 | delay          | `{ delay: number, factor: number, max?: number, min?: number }`                             |
 | delay          | `fn: ({attemptNumber: number,  remainingTries: number,  error: Error}) => number | Promise` |
-| shouldRetry    | `fn: ({attemptNumber: number,  remainingTries: number,  error: Error}) => booleaan`         |
+| shouldRetry    | `fn: ({attemptNumber: number,  remainingTries: number,  error: Error}) => booleaan |Promise<boolean>`         |
 | retry          | `number`                                                                                    |
 
 

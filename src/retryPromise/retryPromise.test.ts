@@ -110,6 +110,32 @@ describe('retryPromise', () => {
     })
   })
 
+  test('shouldRetry waits if it returns a promise', async () => {
+    const shouldRetry: ShouldRetry = jest.fn(async ({ attemptNumber, reason, remainingTries }) => {
+      await wait(100)
+      return attemptNumber < 2
+    })
+    const tryResolveProgressively = retryPromise(createRejectingPromise(Infinity), {
+      onReconnecting,
+      shouldRetry,
+    })
+    const promise = tryResolveProgressively('OK', 'REJECT')
+
+    await flushPromises()
+    await jest.runAllTimers()
+    await flushPromises()
+    await jest.runAllTimers()
+    await flushPromises()
+    await jest.runAllTimers()
+
+    return promise.catch(result => {
+      expect(result).toBe('REJECT')
+      expect(onReconnecting).toHaveBeenCalledTimes(1)
+      expect(promiseCons).toHaveBeenCalledTimes(2)
+      expect(shouldRetry).toHaveBeenCalledTimes(2)
+    })
+  })
+
   test('should wait with advance delay interface', async () => {
     const tryResolveProgressively = retryPromise(createRejectingPromise(5), {
       onReconnecting,
