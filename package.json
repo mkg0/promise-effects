@@ -1,6 +1,6 @@
 {
   "name": "promise-effects",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Promise effects for advanced use cases like retry, timeout, observation over promises.",
   "author": {
     "email": "mehmetmorcay@gmail.com",
