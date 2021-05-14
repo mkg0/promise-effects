@@ -1,0 +1,29 @@
+version: 2
+updates:
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "staging"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    assignees:
+      - "mkg0"
+    labels:
+      - "dependencies"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "staging"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    assignees:
+      - "mkg0"
+    labels:
+      - "dependencies"
+
